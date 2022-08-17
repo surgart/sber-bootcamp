@@ -1,0 +1,236 @@
+openapi: 3.0.2
+info:
+    title: sber-bootcamp-api-design
+    version: 1.0.0
+    description: 'Блок: Проектирование и разработка API, META_SberCloud'
+servers:
+    - url: https://localhost/api/1.0.0
+paths:
+    /clients:
+        summary: Path used to manage the list of clients.
+        description: >-
+            The REST endpoint/path used to list and create zero or more `client` entities.  This path contains
+            a `GET` and `POST` operation to perform the list and create tasks, respectively.
+        get:
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Client'
+                    description: Successful response - returns an array of `client` entities.
+            operationId: getclients
+            summary: List All clients
+            description: Gets a list of all `client` entities.
+        post:
+            requestBody:
+                description: A new `client` to be created.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Client'
+                required: true
+            responses:
+                '201':
+                    description: Successful response.
+            operationId: createclient
+            summary: Create a client
+            description: Creates a new instance of a `client`.
+
+    '/clients/{clientId}':
+        summary: Path used to manage a single client.
+        description: >-
+            The REST endpoint/path used to get, update, and delete single instances of an `client`.  This path
+            contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks,
+            respectively.
+        get:
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Client'
+                    description: Successful response - returns a single `client`.
+            operationId: getclient
+            summary: Get a client
+            description: Gets the details of a single instance of a `client`.
+        put:
+            requestBody:
+                description: Updated `client` information.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Client'
+                required: true
+            responses:
+                '202':
+                    description: Successful response.
+            operationId: updateclient
+            summary: Update a client
+            description: Updates an existing `client`.
+        delete:
+            responses:
+                '204':
+                    description: Successful response.
+            operationId: deleteclient
+            summary: Delete a client
+            description: Deletes an existing `client`.
+
+        parameters:
+            -
+                name: clientId
+                description: A unique identifier for a `client`.
+                schema:
+                    type: string
+                in: path
+                required: true
+
+    /orders:
+        summary: Path used to manage the list of orders.
+        description: >-
+            The REST endpoint/path used to list and create zero or more `order` entities.  This path contains
+            a `GET` and `POST` operation to perform the list and create tasks, respectively.
+        get:
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Order'
+                    description: Successful response - returns an array of `order` entities.
+            operationId: getorders
+            summary: List All orders
+            description: Gets a list of all `order` entities.
+        post:
+            requestBody:
+                description: A new `order` to be created.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Order'
+                required: true
+            responses:
+                '201':
+                    description: Successful response.
+            operationId: createorder
+            summary: Create a order
+            description: Creates a new instance of a `order`.
+
+    '/orders/{orderId}':
+        summary: Path used to manage a single order.
+        description: >-
+            The REST endpoint/path used to get, update, and delete single instances of an `order`.  This path
+            contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks,
+            respectively.
+        get:
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Client'
+                    description: Successful response - returns a single `order`.
+            operationId: getorder
+            summary: Get an order
+            description: Gets the details of a single instance of a `order`.
+        put:
+            requestBody:
+                description: Updated `order` information.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Client'
+                required: true
+            responses:
+                '202':
+                    description: Successful response.
+            operationId: updateorder
+            summary: Update an order
+            description: Updates an existing `order`.
+        delete:
+            responses:
+                '204':
+                    description: Successful response.
+            operationId: deleteorder
+            summary: Delete an order
+            description: Deletes an existing `order`.
+
+        parameters:
+            -
+                name: orderId
+                description: A unique identifier for a `order`.
+                schema:
+                    type: string
+                in: path
+                required: true
+
+components:
+    schemas:
+        Client:
+            title: Root Type for client
+            description: ''
+            required:
+                - login
+                - lastname
+                - phone
+            type: object
+            properties:
+                login:
+                    description: Client's login
+                    type: string
+                    example: me@mail.com
+                phone:
+                    description: Client phone number
+                    type: string
+                    example: '+79001234567'
+                firstname:
+                    description: Client's firstname
+                    type: string
+                    example: John
+                lastname:
+                    description: Client's lastname
+                    type: string
+                    example: Smith
+                id:
+                    description: Client id
+                    type: integer
+                    readOnly: true
+                    example: 1
+            example:
+                id: 1
+                login: me@mail.com
+                phone: '+79001234567'
+                firstname: John
+                lastname: Smith
+        Order:
+            title: Root Type for order
+            description: ''
+            type: object
+            properties:
+                id:
+                    description: order id
+                    type: integer
+                    readOnly: true
+                    example: 1
+                item:
+                    description: order item
+                    type: string
+                    example: Cap
+                price:
+                    description: order price
+                    type: number
+                    example: 100.01
+                count:
+                    description: items count
+                    type: integer
+                    example: 1
+
+            example:
+                id: 1
+                item: Cap
+                price: 100
+                count: 1
